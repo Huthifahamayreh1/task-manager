@@ -1,0 +1,92 @@
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.filters button {
+    padding: 8px 20px;
+    border: 2px solid #4A90E2;
+    background: transparent;
+    color: #4A90E2;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.filters button.active {
+    background: #4A90E2;
+    color: white;
+}
+
+.filters button:hover {
+    background: rgba(74, 144, 226, 0.1);
+}
+
+.task-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-left: 5px solid #4A90E2; 
+    transition: transform 0.2s;
+}
+
+.task-item:hover {
+    transform: translateX(5px);
+}
+
+.task-content h3 {
+    margin: 0 0 0.5rem 0;
+}
+
+.task-content h3 a {
+    text-decoration: none;
+    color: #2c3e50;
+    transition: color 0.2s;
+}
+
+.task-content h3 a:hover {
+    color: #4A90E2;
+}
+
+.task-content p {
+    margin: 0 0 0.5rem 0;
+    color: #666;
+}
+
+.task-content small {
+    color: #999;
+    font-style: italic;
+}
+
+.delete-btn {
+    background: #ff7675;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.delete-btn:hover {
+    background: #d63031;
+}
+
+
+.empty {
+    text-align: center;
+    padding: 3rem;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 2px dashed #ddd;
+    color: #888;
+}

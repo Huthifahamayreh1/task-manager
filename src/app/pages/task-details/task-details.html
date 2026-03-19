@@ -1,0 +1,36 @@
+<div class="tasl-detail-container">
+    @if (task();as currentTask) {
+        <div>
+            <div class="header">
+                <h1>{{currentTask.title}}</h1>
+                <span class="status-badge"[class.completed]="currentTask.completed">{{currentTask.completed ? 'Completed':'Active'}}</span>
+
+            </div>
+            <div class="task-details">
+                <div class="detalis-row">
+                    <strong>Description:</strong>
+                    <p>{{currentTask.description}}</p>
+                </div>
+                <div class="detalis-row">
+                    <strong>Created:</strong>
+                    <p>{{currentTask.createdAt .toLocaleString()}}</p>
+                </div>
+                <div class="detalis-row">
+                    <strong>Status:</strong>
+                    <p>{{currentTask.completed ? 'Completed':'In Progress'}}</p>
+                </div>
+            </div>
+            <div class="actions">
+                <button routerLink="/" class="back-btn">Back to list</button>
+            </div>
+        </div>
+
+    }@else {
+<div class="not-found">
+    <h2>Task Not Found</h2>
+    <p>the task youre looking for doesnt exist.</p>
+    <button routerLink="/">GO Back</button>
+</div>
+
+    }
+</div>
