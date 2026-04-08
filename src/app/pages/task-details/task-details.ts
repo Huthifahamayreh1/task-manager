@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TaskService, Task } from '../../services/task-service';
-import { CommonModule } from '@angular/common'; // مهم لاستخدام الـ Pipes في الـ HTML
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-task-details',
