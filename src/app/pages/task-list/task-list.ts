@@ -1,35 +1,38 @@
-import { Component,computed,inject, signal } from '@angular/core';
-import { TaskService } from '../../services/task-service';
+import { Component, inject } from '@angular/core';
+import { TaskService, Task } from '../../services/task-service';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task-list',
-  imports: [RouterLink],
+  standalone: true,
+  imports: [RouterLink, CommonModule],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })
 export class TaskList {
   taskService = inject(TaskService);
-  filter =signal<'all'| 'completed'|'active'>('all');
-  filteredTask= computed(()=>{
-switch (this.filter()){
-case'all':
-return this.taskService.tasks();
-case'completed':
-return this.taskService.completedTask();
-case'active':
-return this.taskService.activTask();
-default:
-return this.taskService.tasks();
-}
-  });
-  setFilter(filrer:'all'| 'completed'|'active'){
-this.filter.set(filrer);
 
+  currentFilter: 'all' | 'completed' | 'active' = 'all';
+
+  get filteredTasks(): Task[] {
+    switch (this.currentFilter) {
+      case 'all':
+        return this.taskService.tasks;
+      case 'completed':
+        return this.taskService.getCompletedTasks();
+      case 'active':
+        return this.taskService.getActiveTasks();
+      default:
+        return this.taskService.tasks;
+    }
   }
-deleteTask(id:number){
-this.taskService.deleteTask(id);
 
-}
+  setFilter(filter: 'all' | 'completed' | 'active') {
+    this.currentFilter = filter;
+  }
 
+  deleteTask(id: number) {
+    this.taskService.deleteTask(id);
+  }
 }

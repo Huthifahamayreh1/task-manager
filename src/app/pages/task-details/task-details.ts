@@ -1,27 +1,26 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TaskService } from '../../services/task-service';
+import { TaskService, Task } from '../../services/task-service';
+import { CommonModule } from '@angular/common'; // مهم لاستخدام الـ Pipes في الـ HTML
 
 @Component({
   selector: 'app-task-details',
-  imports: [RouterLink],
+  standalone: true,
+  imports: [RouterLink, CommonModule],
   templateUrl: './task-details.html',
   styleUrl: './task-details.css',
 })
-export class TaskDetails {
-  route = inject(ActivatedRoute);
-  taskService =inject(TaskService);
-  taskId= signal<number | null>(null);
-  task=computed(()=>{
-    const id=this.taskId();
-    if(!id)return undefined
-    return this.taskService.getTask(id)
-  })
-  constructor(){
-const id =this.route.snapshot.paramMap.get('id');
-if(id){
-  this.taskId.set(Number(id));
+export class TaskDetails implements OnInit {
+  private route = inject(ActivatedRoute);
+  private taskService = inject(TaskService);
 
-}
+  task: Task | undefined;
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    
+    if (id) {
+      this.task = this.taskService.getTask(Number(id));
+    }
   }
 }
