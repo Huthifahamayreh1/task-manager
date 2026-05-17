@@ -14,7 +14,7 @@ export class TaskService {
   // Regular array instead of Signal
   tasks: Task[] = [
     {
-      id: 1,
+      id: 1 ,
       title: 'Learn Angular Basics',
       description: 'Understand components, services, and routing',
       completed: true,
@@ -38,20 +38,33 @@ export class TaskService {
 
   constructor() {
     // Download data immediately upon service creation
-    this.tasks = this._getTasksFromLocalStorage();
+    this._initTasks();}
+
+  _initTasks() {
+    const savedTasks = localStorage.getItem(this._storageKey);
+    if (savedTasks) {
+      this.tasks = JSON.parse(savedTasks);
+    }
+    else {
+      this._saveTasksToLocalStorage(); // Save default tasks if none exist
+    }
   }
 
   // Retrieve completed tasks
   getCompletedTasks(): Task[] {
+        console.log(this.tasks);
+
     return this.tasks.filter(task => task.completed);
   }
 
   // Fetch active tasks
   getActiveTasks(): Task[] {
+    console.log(this.tasks);
     return this.tasks.filter(task => !task.completed);
   }
 
   getTask(id: number): Task | undefined {
+    console.log(this.tasks);
     return this.tasks.find(task => task.id === id);
 
 
@@ -65,14 +78,14 @@ export class TaskService {
   addTask(title: string, description: string) {
     const newTask: Task = {
 
-      id: this.tasks.length + 1,
+      id: this.tasks.length > 0 ? Math.max(...this.tasks.map(task => task.id)) + 1 : 1, 
       title,
       description,
       completed: false,
       createdAt: new Date(),
     };
     this.tasks.push(newTask); // Add the task to the array
-    this._saveTasksToLocalStorage();// Save in browser
+    this._saveTasksToLocalStorage();// Save in browsergit
   }
 // Update the task status (completed/incomplete) to ensure the status is saved
   toggleTaskStatus(id: number) {
@@ -88,7 +101,13 @@ export class TaskService {
   }
 
   _getTasksFromLocalStorage(): Task[] {
+    if (!localStorage.getItem(this._storageKey)) {
+      console.log('No tasks found in localStorage, initializing with default tasks.');
+      this._saveTasksToLocalStorage(); // Save default tasks to localStorage
+    }
     const tasks = localStorage.getItem(this._storageKey);
+    console.log('Retrieved tasks from localStorage:', tasks);
     return tasks ? JSON.parse(tasks) : [];
   }
 }
+

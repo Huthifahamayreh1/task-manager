@@ -13,26 +13,37 @@ import { CommonModule } from '@angular/common';
 export class TaskList {
   taskService = inject(TaskService);
 
-  currentFilter: 'all' | 'completed' | 'active' = 'all';
 
-  get filteredTasks(): Task[] {
-    switch (this.currentFilter) {
-      case 'all':
-        return this.taskService.tasks;
-      case 'completed':
-        return this.taskService.getCompletedTasks();
-      case 'active':
-        return this.taskService.getActiveTasks();
-      default:
-        return this.taskService.tasks;
-    }
-  }
+ filteredTasks: Task[]= [] ;
+   currentFilter: 'all' | 'completed' | 'active' = 'all';
+   ngOnInit() {
+    this.updateFilteredTasks();
+   }
+   
+
+  
 
   setFilter(filter: 'all' | 'completed' | 'active') {
     this.currentFilter = filter;
+    this.updateFilteredTasks();
+  }
+  updateFilteredTasks() {
+    
+    switch (this.currentFilter) {
+      case 'all':
+        this.filteredTasks = this.taskService.tasks;
+        break;
+      case 'completed':
+        this.filteredTasks = this.taskService.getCompletedTasks();
+        break;
+      case 'active':
+        this.filteredTasks = this.taskService.getActiveTasks();
+        break;
+    }
   }
 
-  deleteTask(id: number) {
+  deleteTask(id:number) {
     this.taskService.deleteTask(id);
+    this.updateFilteredTasks(); // Refresh the filtered list after deletion
   }
 }
