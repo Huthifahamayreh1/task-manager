@@ -14,7 +14,7 @@ export class TaskDetails implements OnInit {
   private route = inject(ActivatedRoute);
   private taskService = inject(TaskService);
 
-  task: Task | undefined;
+  task?: Task;
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
